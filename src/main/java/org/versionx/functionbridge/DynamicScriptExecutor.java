@@ -7,11 +7,11 @@ import java.util.Map;
 
 public class DynamicScriptExecutor {
 
-    public static void executeScript(String language, String script, FunctionRegistry registry) {
-        try (Context context = Context.newBuilder("python").allowAllAccess(true).build()) {
+    public static Object executeScript(String language, String script, FunctionRegistry registry) {
+        try (Context context = Context.newBuilder(language).allowAllAccess(true).build()) {
 
             // Create a new bindings object to hold the functions
-            Value bindings = context.getBindings("python");
+            Value bindings = context.getBindings(language);
 
             // Inject registered functions into the context
             for (Map.Entry<String, ScriptFunction> entry : registry.getAllFunctions().entrySet()) {
@@ -24,10 +24,11 @@ public class DynamicScriptExecutor {
             }
 
             // Evaluate the user script with the injected functions
-            context.eval("python", script);
+            return context.eval(language, script);
 
         } catch (Exception e) {
             e.printStackTrace();
+            return "Error: " + e.getMessage();
         }
     }
 }
