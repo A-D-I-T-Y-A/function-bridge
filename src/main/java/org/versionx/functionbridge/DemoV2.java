@@ -1,27 +1,34 @@
 package org.versionx.functionbridge;
 
-import org.versionx.functionbridge.v2.AddTool;
-import org.versionx.functionbridge.v2.DynamicScriptExecutor;
-import org.versionx.functionbridge.v2.Tool;
-import org.versionx.functionbridge.v2.ToolRegistry;
+import org.graalvm.polyglot.Context;
+import org.versionx.functionbridge.v2.*;
+
+import java.io.IOException;
 
 public class DemoV2 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        ContextHandler contextHandler = new ContextHandler("python");
+        contextHandler.loadFile("python", "src/main/resources/functions.py");
 
         ToolRegistry registry = new ToolRegistry();
+
         Tool addTool = new AddTool();
+        Tool multiplyTool = new SimpleMultiLanguageTool("multiply", "python",
+                contextHandler.getContext(), "a", "b");
+
         registry.registerTool("add", addTool);
-        org.versionx.functionbridge.v2.DynamicScriptExecutor executor = new DynamicScriptExecutor("python", registry);
+        registry.registerTool("multiply", multiplyTool);
 
-        int extraValue = 5;
-        registry.setExecutionContext(extraValue);
+        // Upon receiving request
+        Integer userId = 123;
+        String userScript = "multiply(a=5)";
 
-        String userScript = "result_add = add(ab=5, cd=3)\n" +
-                "print(result_add)\n" +
-                "result_add";
+        registry.setExecutionContext(userId);
 
-        executor.executeScript(userScript, true);
+        ScriptExecutor executor = new ScriptExecutor("python", registry);
+        System.out.println(executor.executeScript(userScript, true));
 
     }
 

@@ -4,13 +4,9 @@ import org.graalvm.polyglot.Value;
 
 public class AddTool extends AbstractTool {
 
-    Integer extraValue = 0;
-
     public AddTool() {
-        argumentNames.add("ab");
-        argumentNames.add("cd");
-        argumentTypes.add(Integer.class);
-        argumentTypes.add(Integer.class);
+        argumentNames.add("a");
+        argumentNames.add("b");
     }
 
     @Override
@@ -21,6 +17,10 @@ public class AddTool extends AbstractTool {
     }
 
     private Integer add(Integer a, Integer b) {
-        return a + b + (Integer)executionContext;
+        if((Integer) executionParams == 123)
+            return a + b;
+        else {
+            return 0;
+        }
     }
 }

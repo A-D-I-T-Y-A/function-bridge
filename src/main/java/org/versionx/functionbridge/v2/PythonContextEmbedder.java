@@ -10,7 +10,6 @@ public class PythonContextEmbedder implements ContextEmbedder{
     @Override
     public void embedTool(String embeddedName, Tool tool, Context context) {
         List<String> argumentNames = tool.getArgumentNames();
-        List<Class<?>> argumentTypes = tool.getArgumentTypes();
 
         String privateName = "_" + embeddedName;
         ProxyExecutable proxy = tool::execute;
@@ -21,8 +20,6 @@ public class PythonContextEmbedder implements ContextEmbedder{
 
         String wrapperDefinition = "def " + embeddedName + "(**kwargs):\n" +
                 " return " + wrapperBody;
-
-        System.out.println(wrapperDefinition);
 
         context.eval("python", wrapperDefinition);
 

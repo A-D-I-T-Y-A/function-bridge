@@ -4,14 +4,14 @@ import org.graalvm.polyglot.Context;
 
 import java.util.Objects;
 
-public class DynamicScriptExecutor {
+public class ScriptExecutor {
 
     private Context cachedContext = null;
     private ToolRegistry toolRegistry = null;
     private String language = null;
     private ContextEmbedder contextEmbedder = null;
 
-    public DynamicScriptExecutor(String language, ToolRegistry toolRegistry) {
+    public ScriptExecutor(String language, ToolRegistry toolRegistry) {
         this.language = language;
         this.toolRegistry = toolRegistry;
         this.cachedContext = Context.newBuilder(language).allowAllAccess(true).build();
@@ -32,6 +32,8 @@ public class DynamicScriptExecutor {
     }
 
     private Context buildNewContext(){
-        return Context.newBuilder(this.language).allowAllAccess(true).build();
+        Context newContext = Context.newBuilder(this.language).allowAllAccess(true).build();
+        this.toolRegistry.getTools().forEach((name,tool) -> this.contextEmbedder.embedTool(name, tool, newContext));
+        return newContext;
     }
 }

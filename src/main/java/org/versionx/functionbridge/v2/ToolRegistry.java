@@ -22,6 +22,6 @@ public class ToolRegistry {
 
     public void setExecutionContext(Object executionContext) {
         this.executionContext = executionContext;
-        tools.forEach((name, tool) -> tool.setExecutionContext(executionContext));
+        tools.forEach((name, tool) -> tool.setExecutionParams(executionContext));
     }
 }

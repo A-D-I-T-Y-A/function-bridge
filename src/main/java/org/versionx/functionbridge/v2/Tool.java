@@ -20,13 +20,6 @@ public interface Tool {
      */
     List<String> getArgumentNames();
 
-    /**
-     * Get the list of argument types that this tool expects.
-     *
-     * @return the list of argument types.
-     */
-    List<Class<?>> getArgumentTypes();
 
-
-    void setExecutionContext(Object executionContext);
+    void setExecutionParams(Object executionParams);
 }

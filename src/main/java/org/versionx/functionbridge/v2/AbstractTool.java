@@ -5,8 +5,7 @@ import java.util.List;
 
 public abstract class AbstractTool implements Tool {
     protected List<String> argumentNames = new ArrayList<>();
-    protected List<Class<?>> argumentTypes = new ArrayList<>();
-    protected Object executionContext = null;
+    protected Object executionParams = null;
 
     @Override
     public List<String> getArgumentNames() {
@@ -14,13 +13,8 @@ public abstract class AbstractTool implements Tool {
     }
 
     @Override
-    public List<Class<?>> getArgumentTypes() {
-        return argumentTypes;
-    }
-
-    @Override
-    public void setExecutionContext(Object executionContext) {
-        this.executionContext = executionContext;
+    public void setExecutionParams(Object executionParams) {
+        this.executionParams = executionParams;
     }
 
 
