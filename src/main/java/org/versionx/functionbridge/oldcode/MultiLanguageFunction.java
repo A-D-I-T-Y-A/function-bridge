@@ -1,4 +1,4 @@
-package org.versionx.functionbridge;
+package org.versionx.functionbridge.oldcode;
 
 import org.graalvm.polyglot.*;
 import java.io.File;
